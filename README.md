@@ -1,9 +1,14 @@
-# Wordclock 2.0
+# Wordclock
 
-Wordclock 2.0 with ESP8266 and NTP time
+Wordclock with ESP8266 and NTP time
 
-More details on my website: https://techniccontroller.de/word-clock-with-wifi-and-neopixel/
+Most of the NodeMCU ESP8266 source code is by techniccontroller.
+More details on his website: https://techniccontroller.de/word-clock-with-wifi-and-neopixel/
 
+I have changed some small things, added the purist mode completely rewrite the webapp.
+
+A detailed overview of my steps building is my page.
+https://www.andrerinas.de/diy-wordclockwortuhr-selber-bauen-mit-arduino-wlan-neopixel
 
 **Features:**
 - 6 modes (Clock, Digital Clock, SPIRAL animation, TETRIS, SNAKE, PONG)
@@ -13,16 +18,23 @@ More details on my website: https://techniccontroller.de/word-clock-with-wifi-an
 - configurable color
 - configurable night mode (start and end time)
 - configurable brightness
+- configurable purist mode ("It is" only at zero minutes or 30)
 - automatic mode change
 - webserver interface for configuration and control
 - physical button to change mode or enable night mode without webserver
 - automatic current limiting of LEDs
 
-## Pictures of clock
-![modes_images2](https://user-images.githubusercontent.com/36072504/156947689-dd90874d-a887-4254-bede-4947152d85c1.png)
+## Picture of clock
+![Clock](https://www.andrerinas.de/wortuhr/clock.png)
 
 ## Screenshots of webserver UI
-![screenshots_UI](https://user-images.githubusercontent.com/36072504/158478447-d828e460-d4eb-489e-981e-216e08d4b129.png)
+<p align="center">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen1.png" width="350" title="wordclock">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen2.png" width="350" alt="tetris">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen3.png" width="350" alt="snake">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen4.png" width="350" alt="pong">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen5.png" width="350" alt="settings">
+</p>
 
 ## Quickstart
 
