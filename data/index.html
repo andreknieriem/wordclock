@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+<html lang="de">
+	<head>
+	<meta charset="UTF-8">
+	<title>WORDCLOCK</title>
+	<link rel="icon" type="image/svg" href="./icons/clock.svg">
+	<link rel="apple-touch-icon" sizes="128x128" href="./icons/wortuhr.png">
+	<link rel="icon" sizes="192x192" href="./icons/wortuhr_high.png">
+	<link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+
+	<header>
+		<button onclick="toggleSettings()" id="settings-btn"><span></span><span></span><span></span></button>
+		<div class="logo">Wordclock</div>
+	</header>
+
+	<!-- Modi -->
+	<h3>Modi</h3>
+	<div class="modes">
+		<div class="grid-item">
+			<div class="mode dot-mode active" onclick="modechange(this, 0, 'clock')">
+				<div class="icon"><img src = "./icons/wordclock.svg" style="height:50px"/></div>
+				<div class="type">Wortuhr</div>
+				<div class="toggle"></div>
+			</div>
+		</div>
+		<div class="grid-item">
+			<div class="mode dot-mode" onclick="modechange(this, 1, 'diclock')">
+				<div class="icon">10<br>30</div>
+				<div class="type">Digital</div>
+				<div class="toggle"></div>
+			</div>
+		</div>
+		<div class="grid-item">
+			<div class="mode dot-mode" onclick="modechange(this, 2, 'spiral')">
+				<div class="icon"><img src = "./icons/spiral.svg" style="height:50px"/></div>
+				<div class="type">Spirale</div>
+				<div class="toggle"></div>
+			</div>
+		</div>
+		<div class="grid-item">
+			<div class="mode dot-mode" onclick="modechange(this, 3, 'tetris')">
+				<div class="icon"><img src = "./icons/tetris.svg" style="height:50px"/></div>
+				<div class="type">Tetris</div>
+				<div class="toggle"></div>
+			</div>
+		</div>
+		<div class="grid-item">
+			<div class="mode dot-mode" onclick="modechange(this, 4, 'snake')">
+				<div class="icon" onclick="modechange(this, 1)"><img src = "./icons/snake.svg" style="height:50px"/></div>
+				<div class="type">Snake</div>
+				<div class="toggle"></div>
+			</div>
+		</div>
+		<div class="grid-item">
+			<div class="mode dot-mode" onclick="modechange(this, 5, 'pingpong')">
+				<div class="icon"><img src = "./icons/pong.svg" style="height:50px"/></div>
+				<div class="type">Pong</div>
+				<div class="toggle"></div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Different Detail-Pages/Settings -->
+
+	<div class="clock-mode-details">
+
+		<div class="main-container hidden" id="colorcontainer">
+			<div class="verticalline">
+			</div>
+			<h3>
+				LED-Color
+			</h3>
+			<div class="control-container">
+				<div class="color-item" onclick="colorchange(this, '255-0-0')"><span class="buttonClass" style="background:rgb(255,0,0);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '255-0-128')"><span class="buttonClass" style="background:rgb(255,0,128);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '255-0-255')"><span class="buttonClass" style="background:rgb(255,0,255);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '128-0-255')"><span class="buttonClass" style="background:rgb(128,0,255);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '0-0-255')"><span class="buttonClass" style="background:rgb(0,0,255);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '0-128-255')"><span class="buttonClass" style="background:rgb(0,128,255);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '255-255-255')"><span class="buttonClass white" style="background:rgb(255,255,255);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '0-255-128')"><span class="buttonClass" style="background:rgb(0,255,128);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '0-255-0')"><span class="buttonClass" style="background:rgb(0,255,0);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '128-255-0')"><span class="buttonClass" style="background:rgb(128,255,0);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '200-200-0')"><span class="buttonClass" style="background:rgb(200,200,0);"></span></div>
+				<div class="color-item" onclick="colorchange(this, '255-128-0')"><span class="buttonClass" style="background:rgb(255,128,0);"></span></div>
+			</div>
+
+
+		</div>
+
+		<div class="main-container hidden" id="snakecontainer">
+			<div class="verticalline">
+			</div>
+			<h3>
+				SNAKE
+			</h3>
+			<div class="control-container">
+				<div class="grid-container">
+					<div class="grid-item" style="grid-column: 2; grid-row: 1;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?snake=up')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px; transform:rotate(90deg);"/></div>
+					</div>
+
+					<div class="grid-item" style="grid-column: 1; grid-row: 2;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?snake=left')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px;"/></div>
+					</div>
+					<div class="grid-item" style="grid-column: 2; grid-row: 2;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?snake=down')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px; transform:rotate(-90deg);"/></div>
+					</div>
+					<div class="grid-item" style="grid-column: 3; grid-row: 2;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?snake=right')" unselectable="on"><img src = "./icons/arrow_right.svg" style="height:30px;"/></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-container">
+				<div class="buttonClass wide-button-bottom" onclick="sendCommand('./cmd?snake=new')" unselectable="on"><img src = "./icons/refresh.svg" style="height:30px"/></div>
+			</div>
+		</div>
+
+
+		<div class="main-container hidden" id="tetriscontainer">
+			<div class="verticalline">
+			</div>
+			<h3>
+				TETRIS
+			</h3>
+			<div class="control-container">
+				<div class="grid-container">
+					<div class="grid-item" style="grid-column: 2; grid-row: 1;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?tetris=up')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px; transform:rotate(90deg);"/></div>
+					</div>
+
+					<div class="grid-item" style="grid-column: 1; grid-row: 2;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?tetris=left')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px;"/></div>
+					</div>
+					<div class="grid-item" style="grid-column: 2; grid-row: 2;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?tetris=down')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px; transform:rotate(-90deg);"/></div>
+					</div>
+					<div class="grid-item" style="grid-column: 3; grid-row: 2;">
+						<div class="buttonClass arrow-button" onclick="sendCommand('./cmd?tetris=right')" unselectable="on"><img src = "./icons/arrow_right.svg" style="height:30px;"/></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-container">
+				<div class="buttonClass tetris-button-bottom" onclick="sendCommand('./cmd?tetris=play')" unselectable="on"><img src = "./icons/refresh.svg" style="height:20px"/></div>
+				<div class="buttonClass tetris-button-bottom" onclick="sendCommand('./cmd?tetris=pause')" unselectable="on"><img src = "./icons/playpause.svg" style="height:20px"/></div>
+			</div>
+		</div>
+
+		<div class="main-container hidden" id="pongcontainer">
+			<div class="verticalline">
+			</div>
+			<h3>
+				PONG
+			</h3>
+			<div class="control-container">
+				<div class="grid-container">
+
+					<div class="grid-item" style="grid-column: 1; grid-row: 1;">
+						<div class="buttonClass arrow-button" style="width: 140px" onclick="sendCommand('./cmd?pong=up')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px; transform:rotate(90deg);"/></div>
+					</div>
+
+					<div class="grid-item" style="grid-column: 1; grid-row: 2;">
+						<div class="buttonClass arrow-button" style="width: 140px" onclick="sendCommand('./cmd?pong=down')" unselectable="on"><img src = "./icons/arrow_left.svg" style="height:30px; transform:rotate(-90deg);"/></div>
+					</div>
+
+				</div>
+			</div>
+			<div class="control-container">
+				<div class="buttonClass wide-button-bottom" onclick="sendCommand('./cmd?pong=new')" unselectable="on"><img src = "./icons/refresh.svg" style="height:30px"/></div>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+
+		let xmlhttp = new XMLHttpRequest();
+		let url = "./data?key=mode";
+		let myVar = null;
+
+		xmlhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				myVar = JSON.parse(this.responseText);
+				// set mode button state
+				let state = myVar.modeid;
+				let modebuttons = document.getElementsByClassName("dot-mode");
+				for (const element of modebuttons){
+					element.classList.remove("active");
+				}
+				modebuttons[state].classList.add("active");
+
+				// set checkbox states
+				let ckb_nightmode = document.querySelector('input[id="Nightmode"]');
+				if(myVar.nightMode == "1") {
+					ckb_nightmode.checked = true;
+				}
+				else {
+					ckb_nightmode.checked = false;
+				}
+				ckb_nightmode.addEventListener('change', () => {
+					if(ckb_nightmode.checked) {
+						sendCommand("./cmd?nightmode=1");
+					} else {
+						sendCommand("./cmd?nightmode=0");
+					}
+				});
+
+				let ckb_stateautochange = document.querySelector('input[id="AutoChange"]');
+				if(myVar.stateAutoChange == "1") {
+					ckb_stateautochange.checked = true;
+				}
+				else {
+					ckb_stateautochange.checked = false;
+				}
+				ckb_stateautochange.addEventListener('change', () => {
+					if(ckb_stateautochange.checked) {
+						sendCommand("./cmd?stateautochange=1");
+					} else {
+						sendCommand("./cmd?stateautochange=0");
+					}
+				});
+
+				let ckb_puristmode = document.querySelector('input[id="Puristmode"]');
+				if(myVar.puristMode == "1") {
+					ckb_puristmode.checked = true;
+				}
+				else {
+					ckb_puristmode.checked = false;
+				}
+				/*
+				ckb_puristmode.addEventListener('change', () => {
+					if(ckb_stateautochange.checked) {
+						sendCommand("./cmd?puristmode=1");
+					} else {
+						sendCommand("./cmd?puristmode=0");
+					}
+				});*/
+
+				document.getElementById("nm_start").value = myVar.nightModeStart.replace("-", ":");
+				document.getElementById("nm_end").value = myVar.nightModeEnd.replace("-", ":");
+				document.getElementById("brightness").value = parseInt(myVar.brightness);
+
+				updateDisplay(parseInt(myVar.modeid));
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+
+		function modechange(element, value, mode) {
+			let modebuttons = document.getElementsByClassName("dot-mode");
+			for (const element of modebuttons){
+				element.classList.remove("active");
+			}
+			element.classList.add("active");
+			let cmdstr = "./cmd?mode=" + mode;
+			sendCommand(cmdstr);
+			updateDisplay(value);
+		}
+
+		function colorchange(element, value) {
+			let colorbuttons = document.getElementsByClassName("color-item");
+			for (const element of colorbuttons){
+				element.classList.remove("active");
+			}
+			element.classList.add("active");
+
+			let cmdstr = "./cmd?led=" + value;
+			let values = value.split('-').join(',');
+
+			document.querySelectorAll("#clock-dummy .letters > span.active").forEach((item) => { item.style.color = "rgb("+values+")"});
+			document.querySelectorAll("#clock-dummy .minutes > div.active").forEach((item) => { item.style.backgroundColor = "rgb("+values+")"});
+
+			sendCommand(cmdstr);
+		}
+
+		function updateDisplay(modeid) {
+
+			let maincontainer = document.getElementsByClassName("main-container");
+			for (const element of maincontainer) {
+				element.classList.add("hidden");
+			}
+
+			if(myVar != null && myVar.stateAutoChange == "0"){
+				switch(modeid) {
+					case 0: // clock
+						document.getElementById("colorcontainer").classList.remove("hidden");
+						document.getElementById("clock-dummy").classList.remove("hidden");
+						break;
+					case 1: // diclock
+						document.getElementById("colorcontainer").classList.remove("hidden");
+						document.getElementById("clock-dummy").classList.remove("hidden");
+						break;
+					case 2: // spiral
+						break;
+					case 3: // tetris
+						document.getElementById("tetriscontainer").classList.remove("hidden");
+						break;
+					case 4: // snake
+						document.getElementById("snakecontainer").classList.remove("hidden");
+						break;
+					case 5: // pingping
+						document.getElementById("pongcontainer").classList.remove("hidden");
+						break;
+
+				}
+			}
+
+		}
+
+		function sendCommand(command){
+			let xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("GET", command, true);
+			xmlhttp.send();
+		}
+
+		function saveSettings(){
+			let nmStart = document.getElementById("nm_start");
+			let nmEnd = document.getElementById("nm_end");
+			let brightnessElmt = document.getElementById("brightness");
+			let puristModeElem = document.getElementById("Puristmode");
+			let cmdstr = "./cmd?setting=";
+			cmdstr += nmStart.value.replace(":", "-");
+			cmdstr += "-";
+			cmdstr += nmEnd.value.replace(":", "-");
+			cmdstr += "-";
+			cmdstr += brightnessElmt.value;
+			cmdstr += "-";
+			cmdstr += puristModeElem.checked ? 1 : 0;
+			sendCommand(cmdstr);
+			window.setTimeout(() => {
+				document.getElementById('save-button').classList.add('success');
+			},100);
+
+			window.setTimeout(() => {
+				document.getElementById('save-button').classList.remove('success');
+			},1000)
+		}
+
+		function toggleSettings(){
+			let container = document.getElementById("settings-container");
+			let btn = document.getElementById("settings-btn");
+			if(container.classList.contains("show")){
+				container.classList.remove("show");
+				btn.classList.remove("show");
+			}
+			else {
+				container.classList.add("show");
+				btn.classList.add("show");
+			}
+		}
+
+	</script>
+
+
+	<div id="settings-container">
+		<div class="settings-header">
+			<h3>Einstellungen</h3>
+		</div>
+		<div>
+			<label for="Nightmode" class="switch-wrapper">
+				<span class="label">Nachtmodus</span>
+				<div class="switch">
+					<input name="Nightmode" id="Nightmode" type="checkbox">
+					<span class="slider round"></span>
+				</div>
+			</label>
+		</div>
+		<div class="number-container">
+			<label for="nm_start" style="align-self: flex-start">Nachtmodus Startzeit: </label>
+			<input type="time" id="nm_start" name="nm_start" min="00:00" max="23:59">
+		</div>
+		<div class="number-container">
+			<label for="nm_end" style="align-self: flex-start">Nachtmodus Ende: </label>
+			<input type="time" id="nm_end" name="nm_end" min="00:00" max="23:59">
+		</div>
+		<div>
+			<label for="AutoChange" class="switch-wrapper">
+				<span class="label">Demomodus</span>
+				<div class="switch">
+					<input name="AutoChange" id="AutoChange" type="checkbox">
+					<span class="slider round"></span>
+				</div>
+			</label>
+		</div>
+		<div>
+			<label for="Puristmode" class="switch-wrapper">
+				<span class="label">Puristenmodus</span>
+				<div class="switch">
+					<input name="Puristmode" id="Puristmode" type="checkbox">
+					<span class="slider round"></span>
+				</div>
+			</label>
+		</div>
+		<div class="number-container">
+			<label for="brightness">Helligkeit:</label>
+			<input type="range" id="brightness" name="volume" min="10" max="255">
+		</div>
+
+		<div class="buttonClass save-button" id="save-button" onclick="saveSettings()">Speichern</div>
+
+	</div>
+
+	<div id="clock-dummy" class="main-container hidden">
+		<div class="letters">
+			<span class="active">E</span><span class="active">S</span><span>P</span><span class="active">I</span><span class="active">S</span><span class="active">T</span><span>Ä</span><span>F</span><span>Ü</span><span>N</span><span>F</span><br>
+			<span>V</span><span>I</span><span>E</span><span>R</span><span>T</span><span>E</span><span>L</span><span>Z</span><span>E</span><span>H</span><span>N</span><br>
+			<span>Z</span><span>W</span><span>A</span><span>N</span><span>Z</span><span>I</span><span>G</span><span>U</span><span>V</span><span>O</span><span>R</span><br>
+			<span>A</span><span>N</span><span>D</span><span>R</span><span>E</span><span>B</span><span>Q</span><span>N</span><span>A</span><span>C</span><span>H</span><br>
+			<span>H</span><span>A</span><span>L</span><span>B</span><span>M</span><span>E</span><span>L</span><span>F</span><span>Ü</span><span>N</span><span>F</span><br>
+			<span>X</span><span>V</span><span>Ö</span><span>R</span><span>I</span><span>N</span><span>A</span><span>S</span><span>L</span><span>E</span><span>R</span><br>
+			<span class="active">E</span><span class="active">I</span><span class="active">N</span><span>S</span><span>E</span><span>A</span><span>W</span><span>Z</span><span>W</span><span>E</span><span>I</span><br>
+			<span>D</span><span>R</span><span>E</span><span>I</span><span>T</span><span>U</span><span>M</span><span>V</span><span>I</span><span>E</span><span>R</span><br>
+			<span>S</span><span >E</span><span>C</span><span>H</span><span>S</span><span>Q</span><span>Y</span><span>A</span><span>C</span><span>H</span><span>T</span><br>
+			<span>S</span><span>I</span><span>E</span><span>B</span><span>E</span><span>N</span><span>Z</span><span>W</span><span>Ö</span><span>L</span><span>F</span><br>
+			<span>Z</span><span>E</span><span>H</span><span>N</span><span>E</span><span>U</span><span>N</span><span>J</span><span class="active">U</span><span class="active">H</span><span class="active">R</span><br>
+		</div>
+		<div class="minutes">
+			<div class="active"></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+
+	</body>
+</html>
