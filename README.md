@@ -29,11 +29,11 @@ https://www.andrerinas.de/diy-wordclockwortuhr-selber-bauen-mit-arduino-wlan-neo
 
 ## Screenshots of webserver UI
 <p align="center">
-  <img src="https://www.andrerinas.de/wortuhr/webscreen1.png" width="350" title="wordclock">
-  <img src="https://www.andrerinas.de/wortuhr/webscreen2.png" width="350" alt="tetris">
-  <img src="https://www.andrerinas.de/wortuhr/webscreen3.png" width="350" alt="snake">
-  <img src="https://www.andrerinas.de/wortuhr/webscreen4.png" width="350" alt="pong">
-  <img src="https://www.andrerinas.de/wortuhr/webscreen5.png" width="350" alt="settings">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen1.png" width="200" title="wordclock">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen2.png" width="200" alt="tetris">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen3.png" width="200" alt="snake">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen4.png" width="200" alt="pong">
+  <img src="https://www.andrerinas.de/wortuhr/webscreen5.png" width="200" alt="settings">
 </p>
 
 ## Quickstart
