@@ -5,10 +5,10 @@ Wordclock with ESP8266 and NTP time
 Most of the NodeMCU ESP8266 source code is by techniccontroller.
 More details on his website: https://techniccontroller.de/word-clock-with-wifi-and-neopixel/
 
-I have changed some small things, added the purist mode completely rewrite the webapp.
+I have changed some small things, added the purist mode and completely rewrite the webapp.
 
-A detailed overview of my steps building is my page.
-https://www.andrerinas.de/diy-wordclockwortuhr-selber-bauen-mit-arduino-wlan-neopixel
+A detailed overview of my building process is my on website.
+https://www.andrerinas.de/tutorials/diy-wordclockwortuhr-selber-bauen-mit-arduino-wlan-neopixel.html
 
 **Features:**
 - 6 modes (Clock, Digital Clock, SPIRAL animation, TETRIS, SNAKE, PONG)
