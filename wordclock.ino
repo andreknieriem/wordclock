@@ -48,13 +48,13 @@
 //                                        CONSTANTS
 // ----------------------------------------------------------------------------------
 
-#define EEPROM_SIZE 20      // size of EEPROM to save persistent variables
+#define EEPROM_SIZE 24      // size of EEPROM to save persistent variables
 #define ADR_NM_START_H 0
 #define ADR_NM_END_H 4
 #define ADR_NM_START_M 8
 #define ADR_NM_END_M 12
 #define ADR_BRIGHTNESS 16
-
+#define ADR_PURIST 20
 
 #define NEOPIXELPIN 5       // pin to which the NeoPixels are attached
 #define NUMPIXELS 125       // number of pixels attached to Attiny85
@@ -163,6 +163,7 @@ const uint32_t colors24bit[NUM_COLORS] = {
 
 uint8_t brightness = 40;            // current brightness of leds
 bool sprialDir = false;
+bool puristMode = true;             // if purist mode is on
 
 // timestamp variables
 long lastheartbeat = millis();      // time of last heartbeat sending
@@ -187,10 +188,9 @@ float filterFactor = DEFAULT_SMOOTHING_FACTOR;// stores smoothing factor for led
 uint8_t currentState = st_clock;              // stores current state
 bool stateAutoChange = false;                 // stores state of automatic state change
 bool nightMode = false;                       // stores state of nightmode
-uint32_t maincolor_clock = colors24bit[2];    // color of the clock and digital clock
+uint32_t maincolor_clock = LEDMatrix::Color24bit(255, 255, 255);    // color of the clock and digital clock "white"
 uint32_t maincolor_snake = colors24bit[1];    // color of the random snake animation
 bool apmode = false;                          // stores if WiFi AP mode is active
-bool puristMode = false;                      // stores if puristmode is activated
 
 // nightmode settings
 int nightModeStartHour = 22;
@@ -250,60 +250,6 @@ void setup() {
   // Turn off minutes leds
   ledmatrix.setMinIndicator(15, 0);
   ledmatrix.drawOnMatrixInstant();
-
-   
-  
-  /** (alternative) Use directly STA/AP Mode of ESP8266   **/
-  
-  /* 
-  // We start by connecting to a WiFi network
-  Serial.print("Connecting to ");
-  Serial.println(WIFI_SSID);
-  
-  // We start by connecting to a WiFi network
-  WiFi.mode(WIFI_STA);
-  //Set new hostname
-  WiFi.hostname(hostname.c_str());
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  //wifi_station_set_hostname("esplamp");
-
-  int timeoutcounter = 0;
-  while (WiFi.status() != WL_CONNECTED && timeoutcounter < 30) {
-    ledmatrix.setMinIndicator(15, colors24bit[6]);
-    ledmatrix.drawOnMatrixInstant();
-    delay(250);
-    ledmatrix.setMinIndicator(15, 0);
-    ledmatrix.drawOnMatrixInstant();
-    delay(250);
-    Serial.print(".");
-    timeoutcounter++;
-  }
-
-  // start request of program
-  if (WiFi.status() == WL_CONNECTED) {      //Check WiFi connection status
-    Serial.println("");
-
-    Serial.println("WiFi connected");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP()); 
-    WiFi.setAutoReconnect(true);
-    WiFi.persistent(true);
-  
-  } else {
-    // no wifi found -> open access point
-    WiFi.mode(WIFI_AP);
-    WiFi.softAPConfig(IPAdress_AccessPoint, Gateway_AccessPoint, Subnetmask_AccessPoint);
-    WiFi.softAP(AP_SSID, AP_PASS);
-    apmode = true;
-
-    // start DNS Server
-    DnsServer.setTTL(300);
-    DnsServer.start(DNSPort, WebserverURL, IPAdress_AccessPoint);
-
-    IPAddress myIP = WiFi.softAPIP();
-    Serial.print("AP IP address: ");
-    Serial.println(myIP);
-  }*/
 
   // init ESP8266 File manager (LittleFS)
   setupFS();
@@ -365,7 +311,7 @@ void setup() {
   // show the current time for short time in words
   int hours = ntp.getHours24();
   int minutes = ntp.getMinutes();
-  String timeMessage = timeToString(hours, minutes, puristMode);
+  String timeMessage = timeToString(hours, minutes);
   showStringOnClock(timeMessage, maincolor_clock);
   drawMinuteIndicator(minutes, maincolor_clock);
   ledmatrix.drawOnMatrixSmooth(filterFactor);
@@ -402,6 +348,8 @@ void setup() {
   brightness = readIntEEPROM(ADR_BRIGHTNESS);
   logger.logString("Brightness: " + String(brightness));
   ledmatrix.setBrightness(brightness);
+
+  puristMode = readIntEEPROM(ADR_PURIST);
   
 }
 
@@ -438,7 +386,7 @@ void loop() {
         {
           int hours = ntp.getHours24();
           int minutes = ntp.getMinutes();
-          showStringOnClock(timeToString(hours, minutes, puristMode), maincolor_clock);
+          showStringOnClock(timeToString(hours, minutes), maincolor_clock);
           drawMinuteIndicator(minutes, maincolor_clock);
         }
         break;
@@ -782,11 +730,16 @@ void handleCommand() {
     nightModeEndHour = split(timestr, '-', 2).toInt();
     nightModeEndMin = split(timestr, '-', 3).toInt();
     brightness = split(timestr, '-', 4).toInt();
+    int puristSetting = split(timestr, '-', 5).toInt();
+    if(puristSetting == 1) puristMode = true;
+    else puristMode = false;
+
     writeIntEEPROM(ADR_NM_START_H, nightModeStartHour);
     writeIntEEPROM(ADR_NM_START_M, nightModeStartMin);
     writeIntEEPROM(ADR_NM_END_H, nightModeEndHour);
     writeIntEEPROM(ADR_NM_END_M, nightModeEndMin);
     writeIntEEPROM(ADR_BRIGHTNESS, brightness);
+    writeIntEEPROM(ADR_PURIST,puristMode);
     logger.logString("Nightmode starts at: " + String(nightModeStartHour) + ":" + String(nightModeStartMin));
     logger.logString("Nightmode ends at: " + String(nightModeEndHour) + ":" + String(nightModeEndMin));
     logger.logString("Brightness: " + String(brightness));
@@ -797,12 +750,6 @@ void handleCommand() {
     logger.logString("stateAutoChange change via Webserver to: " + modestr);
     if(modestr == "1") stateAutoChange = true;
     else stateAutoChange = false;
-  }
-  else if(server.argName(0) == "puristMode"){
-    String modestr = server.arg(0);
-    logger.logString("puristMode change via Webserver to: " + modestr);
-    if(modestr == "1") puristMode = true;
-    else puristMode = false;
   }
   else if(server.argName(0) == "tetris"){
     String cmdstr = server.arg(0);
@@ -908,8 +855,6 @@ void handleDataRequest() {
       message += ",";
       message += "\"stateAutoChange\":\"" + String(stateAutoChange) + "\"";
       message += ",";
-      message += "\"puristMode\":\"" + String(puristMode) + "\"";
-      message += ",";
       message += "\"nightMode\":\"" + String(nightMode) + "\"";
       message += ",";
       message += "\"nightModeStart\":\"" + leadingZero2Digit(nightModeStartHour) + "-" + leadingZero2Digit(nightModeStartMin) + "\"";
@@ -917,6 +862,8 @@ void handleDataRequest() {
       message += "\"nightModeEnd\":\"" + leadingZero2Digit(nightModeEndHour) + "-" + leadingZero2Digit(nightModeEndMin) + "\"";
       message += ",";
       message += "\"brightness\":\"" + String(brightness) + "\"";
+      message += ",";
+      message += "\"puristMode\":\"" + String(puristMode) + "\"";
     }
     message += "}";
     server.send(200, "application/json", message);

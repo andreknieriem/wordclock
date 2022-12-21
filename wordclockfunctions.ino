@@ -94,23 +94,19 @@ int showStringOnClock(String message, uint32_t color){
  * 
  * @param hours hours of the time value
  * @param minutes minutes of the time value
- * @param puristMode if "Es ist should be visible the whole time"
  * @return String time as sentence
  */
-String timeToString(uint8_t hours,uint8_t minutes, bool puristMode = true){
+String timeToString(uint8_t hours,uint8_t minutes){
   Serial.println(hours);
   Serial.println(minutes);
   
   //ES IST
   String message = "";
-  if( !puristMode ) {
-    message += "ES IST ";
-  } else {
-    if(minutes < 5 || (minutes >= 30 && minutes < 35)) {
-        message += "ES IST ";
-    }
-  }
 
+  if(minutes < 5 || (minutes >= 30 && minutes < 35) || !puristMode )
+  {
+    message += "ES IST ";    
+  }
   
   //show minutes
   if(minutes >= 5 && minutes < 10)
@@ -127,7 +123,7 @@ String timeToString(uint8_t hours,uint8_t minutes, bool puristMode = true){
   }
   else if(minutes >= 20 && minutes < 25)
   {
-    message += "ZWANZIG NACH ";
+    message += "ZWANZIG NACH "; 
   }
   else if(minutes >= 25 && minutes < 30)
   {
